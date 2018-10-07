@@ -1,0 +1,307 @@
+{
+  "initialState": "RegistrationValueProp",
+  "states": [
+    {
+      "name": "CompletionSuccess",
+      "events": [
+        {
+          "name": "OnNext",
+          "dontTransition": {
+            "sideEffect": "FinishSuccess"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ConfirmData",
+      "events": [
+        {
+          "name": "OnBack",
+          "transition": {
+            "state": "ConfirmMailing",
+            "sideEffect": "GoBack"
+          }
+        },
+        {
+          "name": "OnNext",
+          "transition": {
+            "state": "CustomerAgreement",
+            "sideEffect": "ShowState"
+          }
+        }
+      ]
+    },
+    {
+      "name": "ConfirmMailing",
+      "events": [
+        {
+          "name": "OnAction",
+          "transition": {
+            "state": "InAddressFlow",
+            "sideEffect": "ShowState"
+          }
+        },
+        {
+          "name": "OnBack",
+          "transition": {
+            "state": "InAddressFlow",
+            "sideEffect": "ShowState"
+          },
+          "dontTransition": {
+            "sideEffect": "FinishFailure"
+          }
+        },
+        {
+          "name": "OnNext",
+          "transition": {
+            "state": "CustomerAgreement",
+            "sideEffect": "ShowState"
+          },
+          "dontTransition": {
+            "sideEffect": "FinishFailure"
+          }
+        }
+      ]
+    },
+    {
+      "name": "CustomerAgreement",
+      "events": [
+        {
+          "name": "OnBack",
+          "transition": {
+            "state": "ConfirmData",
+            "sideEffect": "GoBack"
+          }
+        },
+        {
+          "name": "OnNext",
+          "transition": {
+            "state": "CustomerAgreementLimbo",
+            "sideEffect": "InLimbo"
+          }
+        },
+        {
+          "name": "OnSkip",
+          "transition": {
+            "state": "CustomerAgreementDenied",
+            "sideEffect": "ShowState"
+          }
+        }
+      ]
+    },
+    {
+      "name": "CustomerAgreementDenied",
+      "events": [
+        {
+          "name": "OnNext",
+          "transition": {
+            "state": "CustomerAgreement",
+            "sideEffect": "GoBack"
+          }
+        },
+        {
+          "name": "OnSkip",
+          "transition": {
+            "state": "CustomerAgreement",
+            "sideEffect": "GoBack"
+          },
+          "dontTransition": {
+            "sideEffect": "FinishFailure"
+          }
+        }
+      ]
+    },
+    {
+      "name": "CustomerAgreementLimbo",
+      "events": [
+        {
+          "name": "OnNext",
+          "transition": {
+            "state": "DebitSuccess",
+            "sideEffect": "ShowState"
+          }
+        },
+        {
+          "name": "OnSkip",
+          "transition": {
+            "state": "InIDVFlow",
+            "sideEffect": "ShowState"
+          }
+        }
+      ]
+    },
+    {
+      "name": "DebitSuccess",
+      "events": [
+        {
+          "name": "OnBack",
+          "dontTransition": {
+            "sideEffect": "FinishFailure"
+          }
+        },
+        {
+          "name": "OnNext",
+          "transition": {
+            "state": "PinSelectionLimbo",
+            "sideEffect": "InLimbo"
+          },
+          "dontTransition": {
+            "sideEffect": "FinishFailure"
+          }
+        }
+      ]
+    },
+    {
+      "name": "InAddressFlow",
+      "events": [
+        {
+          "name": "OnNext",
+          "transition": {
+            "state": "CustomerAgreement",
+            "sideEffect": "ShowState"
+          }
+        },
+        {
+          "name": "OnSkip",
+          "transition": {
+            "state": "ConfirmMailing",
+            "sideEffect": "ShowState"
+          }
+        }
+      ]
+    },
+    {
+      "name": "InIDVFlow",
+      "events": [
+        {
+          "name": "OnNext",
+          "transition": {
+            "state": "DebitSuccess",
+            "sideEffect": "ShowState"
+          }
+        },
+        {
+          "name": "OnSkip",
+          "transition": {
+            "state": "DebitSuccess",
+            "sideEffect": "ShowState"
+          },
+          "dontTransition": {
+            "sideEffect": "FinishFailure"
+          }
+        }
+      ]
+    },
+    {
+      "name": "InPinSetFlow",
+      "events": [
+        {
+          "name": "OnNext",
+          "transition": {
+            "state": "VirtualCard",
+            "sideEffect": "ShowState"
+          }
+        },
+        {
+          "name": "OnSkip",
+          "transition": {
+            "state": "PinSkipCompletionSuccess",
+            "sideEffect": "ShowState"
+          }
+        }
+      ]
+    },
+    {
+      "name": "PinSelectionLimbo",
+      "events": [
+        {
+          "name": "OnNext",
+          "transition": {
+            "state": "InPinSetFlow",
+            "sideEffect": "ShowState"
+          }
+        },
+        {
+          "name": "OnSkip",
+          "transition": {
+            "state": "VirtualCard",
+            "sideEffect": "ShowState"
+          }
+        }
+      ]
+    },
+    {
+      "name": "PinSkipCompletionSuccess",
+      "events": [
+        {
+          "name": "OnNext",
+          "dontTransition": {
+            "sideEffect": "FinishSuccess"
+          }
+        }
+      ]
+    },
+    {
+      "name": "RegistrationValueProp",
+      "events": [
+        {
+          "name": "OnBack",
+          "dontTransition": {
+            "sideEffect": "FinishFailure"
+          }
+        },
+        {
+          "name": "OnNext",
+          "transition": {
+            "state": "WavyLoader",
+            "sideEffect": "ShowState"
+          },
+          "dontTransition": {
+            "sideEffect": "FinishFailure"
+          }
+        },
+        {
+          "name": "OnSkip",
+          "transition": {
+            "state": "WavyLoader",
+            "sideEffect": "ShowState"
+          },
+          "dontTransition": {
+            "sideEffect": "FinishFailure"
+          }
+        }
+      ]
+    },
+    {
+      "name": "VirtualCard",
+      "events": [
+        {
+          "name": "OnBack",
+          "transition": {
+            "state": "DebitSuccess",
+            "sideEffect": "ShowState"
+          }
+        },
+        {
+          "name": "OnNext",
+          "transition": {
+            "state": "CompletionSuccess",
+            "sideEffect": "ShowState"
+          }
+        }
+      ]
+    },
+    {
+      "name": "WavyLoader",
+      "events": [
+        {
+          "name": "OnNext",
+          "transition": {
+            "state": "ConfirmMailing",
+            "sideEffect": "ShowState"
+          }
+        }
+      ]
+    }
+  ]
+}
